@@ -2,9 +2,11 @@ package main
 
 import (
 	"main/handlers"
+	"main/logging"
 	"main/storage"
 	"main/validations"
 
+	"github.com/brpaz/echozap"
 	"github.com/labstack/echo/v4"
 )
 
@@ -18,6 +20,8 @@ func main() {
 	}
 
 	e.Validator = v
+
+	e.Use(echozap.ZapLogger(logging.GetLog()))
 
 	e.GET("/", handlers.BlankHandler)
 	e.POST("/action", handlers.UserActionHandler)
