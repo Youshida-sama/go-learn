@@ -10,8 +10,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Экземпляр базы данных
 var db *sql.DB
 
+// Инициализация экземпляра базы данных, параметры выбираются из переменных сред
 func InitDB() {
 	err := godotenv.Load()
 	if err != nil {
@@ -38,6 +40,7 @@ func InitDB() {
 	fmt.Println("Successfully connected to database")
 }
 
+// Получает экземпляр базы данных
 func GetDB() *sql.DB {
 	return db
 }

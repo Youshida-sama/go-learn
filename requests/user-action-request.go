@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Запрос на логирование действий пользователя
 type UserActionRequest struct {
 	ID      int    `json:"id" validate:"required,gte=0"`
 	Name    string `json:"name" validate:"req=Surname"`
@@ -12,8 +13,7 @@ type UserActionRequest struct {
 	Time    string `json:"time" validate:"isoTime"`
 }
 
-//время обязательное, только если есть имя и наоборот
-
+// Конвертация запроса в бизнес-модель
 func (uar UserActionRequest) Map() (ua *models.UserAction, err error) {
 	t, err := time.Parse(time.RFC3339, uar.Time)
 

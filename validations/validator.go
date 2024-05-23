@@ -12,24 +12,23 @@ import (
 	ru_translations "github.com/go-playground/validator/v10/translations/ru"
 )
 
-var (
-	uni *ut.UniversalTranslator
-
-	validate *validator.Validate
-)
-
+/*
+Корневой валидатор, содержащий все основные и дополнительные валидации.
+Также содержит в себе настроенную локализацию на русский язык.
+*/
 type CoreValidator struct {
 	Validator   *validator.Validate
 	Translation ut.Translator
 }
 
+// Создает новый экземпляр корневого валидатора
 func NewValidator() (v *CoreValidator, err error) {
 	v = &CoreValidator{
 		Validator: validator.New(),
 	}
 
 	ru := ru.New()
-	uni = ut.New(ru, ru)
+	uni := ut.New(ru, ru)
 	trans, _ := uni.GetTranslator("ru")
 
 	v.Translation = trans
@@ -67,6 +66,7 @@ func NewValidator() (v *CoreValidator, err error) {
 	return
 }
 
+// Валидирует структуру, в случае ошибок возвращает локализированную строку
 func (cv *CoreValidator) Validate(i interface{}) (err error) {
 	err = cv.Validator.Struct(i)
 	if err != nil {
@@ -82,13 +82,14 @@ func (cv *CoreValidator) Validate(i interface{}) (err error) {
 	return
 }
 
-// "2001-03-24T16:21:21.269Z"
+// Проверяет дату\время в формате "YYYY-MM-DDThh:mm:ss.fffZ"
 func IsISO8601Date(fl validator.FieldLevel) bool {
 	ISO8601DateRegexString := "^(\\d{4})(-(0[1-9]|1[0-2])(-([12]\\d|0[1-9]|3[01]))([T\\s]((([01]\\d|2[0-3])((:)[0-5]\\d))([\\:]\\d+)?)?(:[0-5]\\d([\\.]\\d+)?)?([zZ]|([\\+-])([01]\\d|2[0-3]):?([0-5]\\d)?)?)?)$"
 	ISO8601DateRegex := regexp.MustCompile(ISO8601DateRegexString)
 	return ISO8601DateRegex.MatchString(fl.Field().String())
 }
 
+// Проверяет кейс: Если текущее поле содержит контент, то проверяется зависимое поле, если оба поля пустые, то игнорируются
 func RequireAnotherField(fl validator.FieldLevel) bool {
 	paramField := fl.Param()
 

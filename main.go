@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Точка входа
 func main() {
 	e := echo.New()
 	v, err := validations.NewValidator()

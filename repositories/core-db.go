@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Создает запись о действии пользователя
 func CreateUserAction(userAction models.UserAction) (models.UserAction, error) {
 	db := storage.GetDB()
 	sqlStatement := `call create_user_action($1, $2, $3, $4)`
