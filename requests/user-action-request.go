@@ -27,6 +27,7 @@ func (uar UserActionRequest) Map() (ua *models.UserAction, err error) {
 		ID:      uar.ID,
 		Name:    uar.Name,
 		Surname: uar.Surname,
+		Action:  uar.Action,
 		Time:    t,
 	}
 

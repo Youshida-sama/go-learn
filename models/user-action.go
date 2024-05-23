@@ -1,11 +1,15 @@
 package models
 
-import "time"
+import (
+	"main/enums"
+	"time"
+)
 
-//Бизнес-модель действия пользователя
+// Бизнес-модель действия пользователя
 type UserAction struct {
 	ID      int
 	Name    string
 	Surname string
+	Action  enums.Action
 	Time    time.Time
 }
